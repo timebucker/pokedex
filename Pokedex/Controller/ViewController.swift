@@ -58,7 +58,7 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
         var path = Bundle.main.path( forResource: "music", ofType: "mp3")!
         do{
             musicPLayer = try AVAudioPlayer(contentsOf: URL(fileURLWithPath: path))
-            //musicPLayer.prepareToPlay()
+            musicPLayer.prepareToPlay()
             musicPLayer.numberOfLoops = -1
             musicPLayer.play()
         } catch let err as NSError{
@@ -78,7 +78,13 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print("slecsd")
+        var poke:Pokemon!
+        if isSearchMode{
+            poke = pokemonsFiltered[indexPath.row]
+        } else{
+            poke = pokemons[indexPath.row]
+        }
+        performSegue(withIdentifier: "PokemonDetailVC", sender: poke)
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -127,5 +133,12 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
         collectionPokemon.reloadData()
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "PokemonDetailVC"{
+            guard let detailVC = segue.destination as? PokemonDetailVC else{return}
+            guard let poke = sender as? Pokemon else{return}
+            detailVC.pokemon = poke
+        }
+    }
 }
 
