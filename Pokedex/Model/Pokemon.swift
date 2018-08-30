@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import Alamofire
 
 class Pokemon{
     var _name:String!

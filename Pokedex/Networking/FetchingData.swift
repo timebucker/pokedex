@@ -8,32 +8,47 @@
 
 import Foundation
 import Alamofire
+import SwiftyJSON
 
 class FetchingData{
     static func fetchData(pokemon: Pokemon, completed: @escaping ()->()) {
         Alamofire.request(pokemon._pokemonURL).responseJSON { response in
-            guard let dict = response.result.value as? Dictionary<String, AnyObject> else{return}
-            
-            guard let weight = dict["weight"] as? Int else{return}
-            pokemon._weight = weight
-            
-            guard let height = dict["height"] as? Int else{return}
-            pokemon._height = height
-            
-            guard let base_ex = dict["base_experience"] as? Int else{return}
-            pokemon._baseExperience = base_ex
-            
-            guard let temp = dict["types"] as? [Dictionary<String, AnyObject>] else{return}
-            guard let types = temp[0]["type"]!["name"] as? String else {return}
-            pokemon._type = types.capitalized
-            
-            if (temp.count > 1){
-                for i in 1..<temp.count{
-                    guard let types = temp[i]["type"]!["name"] as? String else {return}
-                    pokemon._type.append("/\(types.capitalized)")
+            if response.result.isSuccess{
+                
+                if let dict:JSON = JSON(response.result.value!){
+                    
+                    if let weight = dict["weight"].int{
+                        pokemon._weight = weight
+                    }
+                    
+                    if let height = dict["height"].int{
+                        pokemon._height = height
+                    }
+                    
+                    if let base_ex = dict["base_experience"].int {
+                        pokemon._baseExperience = base_ex
+                    }
+                    
+                    if let types = dict["types"][0]["type"]["name"].string{
+                        pokemon._type = types.capitalized
+                        var count = dict["types"].count
+                        
+                        if (count > 1){
+                            for i in 1..<count{
+                                if let temp = dict["types"][i]["type"]["name"].string{
+                                    pokemon._type.append("/\(temp.capitalized)")
+                                }
+                            }
+                        }
+                    }
+                    
+                    
+                    completed()
+                }
+                else{
+                    print("Error \(response.result.error)")
                 }
             }
-            completed()
         }
     }
 }
