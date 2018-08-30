@@ -43,6 +43,7 @@ class FetchingData{
                     }
                     
                     
+                    
                     completed()
                 }
                 else{

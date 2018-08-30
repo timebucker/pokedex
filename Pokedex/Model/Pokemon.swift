@@ -15,14 +15,22 @@ class Pokemon{
     var _height:Int!
     var _weight:Int!
     var _baseExperience:Int!
-    var _nextEvolTxt:String!
+    var _nextEvolPokemon:Int!
+    var _nextNextEvolPokemon:Int!
     var _pokemonURL:String!
     
-    var nextEvolTxt:String{
-        if _nextEvolTxt == nil{
-            return ""
+    var nextNextEvolPokemon:Int{
+        if _nextNextEvolPokemon == nil{
+            return 0
         }
-        return _nextEvolTxt
+        return _nextNextEvolPokemon
+    }
+    
+    var nextEvolPokemon:Int{
+        if _nextEvolPokemon == nil{
+            return 0
+        }
+        return _nextEvolPokemon
     }
     
     var baseExperience:Int{
