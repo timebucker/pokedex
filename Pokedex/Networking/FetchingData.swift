@@ -23,12 +23,16 @@ class FetchingData{
             guard let base_ex = dict["base_experience"] as? Int else{return}
             pokemon._baseExperience = base_ex
             
-            //            guard let types = dict["types"] as? [Dictionary<String, AnyObject>] else{return}
-            //            pokemon._type = types[0]["type"]?["name"] as! String
-            //
-            //            for i in 1...types.count{
-            //                pokemon._type.append("/\(types[i]["type"]?["name"] as! String)")
-            //            }
+            guard let temp = dict["types"] as? [Dictionary<String, AnyObject>] else{return}
+            guard let types = temp[0]["type"]!["name"] as? String else {return}
+            pokemon._type = types.capitalized
+            
+            if (temp.count > 1){
+                for i in 1..<temp.count{
+                    guard let types = temp[i]["type"]!["name"] as? String else {return}
+                    pokemon._type.append("/\(types.capitalized)")
+                }
+            }
             completed()
         }
     }

@@ -42,7 +42,8 @@ class PokemonDetailVC: UIViewController {
     func updateUI(){
         self.lblBaseEx.text = String(pokemon.baseExperience)
         self.lblHeight.text = String(pokemon.height)
-        self.lblWeight.text = String(pokemon.weight) 
+        self.lblWeight.text = String(pokemon.weight)
+        self.lblType.text = pokemon._type
     }
     
     func initAudio(){
