@@ -19,10 +19,9 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
     var isSearchMode = false
     var musicPLayer: AVAudioPlayer!
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+ 
         collectionPokemon.dataSource = self
         collectionPokemon.delegate = self
         searchBar.delegate = self

@@ -16,23 +16,33 @@ class PokemonDetailVC: UIViewController {
     
     @IBOutlet weak var lblName: UILabel!
     @IBOutlet weak var imgPokemon: UIImageView!
-    @IBOutlet weak var lblDescript: UILabel!
-    @IBOutlet weak var lblType: UILabel!
-    @IBOutlet weak var lblDefense: UILabel!
     @IBOutlet weak var lblPokedexId: UILabel!
+    @IBOutlet weak var lblBaseEx: UILabel!
+    @IBOutlet weak var lblType: UILabel!
     @IBOutlet weak var lblHeight: UILabel!
     @IBOutlet weak var lblWeight: UILabel!
-    @IBOutlet weak var lblBaseAttack: UILabel!
     @IBOutlet weak var lblNextEvol: UILabel!
-    @IBOutlet weak var imgCurrentEvol: UIImageView!
+    @IBOutlet weak var imgNextNextEvol: UIImageView!
     @IBOutlet weak var imgNextEvol: UIImageView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         lblName.text = self.pokemon.name
+        lblPokedexId.text = String(self.pokemon.pokedexId)
+        imgPokemon.image = UIImage(named: "\(pokemon.pokedexId)")
+        
+        FetchingData.fetchData(pokemon: pokemon) {
+            self.updateUI()
+        }
         
         initAudio()
+    }
+    
+    func updateUI(){
+        self.lblBaseEx.text = String(pokemon.baseExperience)
+        self.lblHeight.text = String(pokemon.height)
+        self.lblWeight.text = String(pokemon.weight) 
     }
     
     func initAudio(){
